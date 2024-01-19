@@ -10,8 +10,7 @@ import registerlottie from "../assets/registerlottie.json";
 import SocialLogin from "../components/Buttons/SocialLogin";
 
 
-const image_hosting_key = import.meta.env.VITE_IMAGE_API_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
 const Register = () => {
   const axiosPublic = useAxiosPublic();
   const [showPassword, setShowPassord] = useState(false);
@@ -30,21 +29,16 @@ const Register = () => {
     console.log(username);
 
    if(!user){
-    const imageFile = { image: data.image[0] };
-    const res = await axiosPublic.post(image_hosting_api, imageFile, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
-    console.log(res.data);
-    if (res.data.success) {
+    
+
+  
       
       const toastId = toast.loading("creating new account...");
 
       try {
         await signupUser(data.email, data.password)
           .then((userCredential) => {
-            updateUserProfile(username,res.data.data.display_url )
+            updateUserProfile(username )
               .then(() => {
                 //create user entry in the database
                 const userInfo = {
@@ -80,9 +74,7 @@ const Register = () => {
       } catch (err) {
         toast.error(err.message, { id: toastId });
       }
-    } else {
-      toast.error("OOPS! Something went wrong");
-    }
+   
    }else{
     toast("LOG OUT OF OTHER ACCOUNT FIRST!", {
       icon: "⚠",
@@ -158,21 +150,7 @@ const Register = () => {
                   className="mt-1 w-full border-0 rounded-md border-gray-200 focus:outline-2 px-3 bg-slate-100 focus:outline-slate-400 text-sm text-gray-700 py-3 shadow-sm"
                 />
               </div>
-              <div className="col-span-6 w-full ">
-                <label
-                  htmlFor="image"
-                  className="block text-sm font-medium text-gray-700 mb-2 w-full"
-                >
-                  Upload Image
-                </label>
-
-                <input
-                  type="file"
-                  name="image"
-                  {...register("image", { required: true })}
-                  className="file-input file-input-bordered file-input-success w-auto lg:w-full"
-                />
-              </div>
+              
 
               <div className="col-span-6">
                 <label
