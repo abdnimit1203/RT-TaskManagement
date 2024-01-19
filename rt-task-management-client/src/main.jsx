@@ -1,10 +1,38 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
+import { RouterProvider } from 'react-router-dom'
+import { router } from './routes/Routes'
+import AuthProvider from './providers/AuthProvider'
+import { Toaster } from 'react-hot-toast'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <RouterProvider router={router}></RouterProvider>
+      <Toaster
+          toastOptions={{
+            success: {
+              style: {
+                background: "#40D861",
+                padding: "16px",
+                color: "white",
+              },
+              iconTheme: {
+                primary: 'white',
+                secondary: '#40D861',
+              },
+            },
+
+            error: {
+              style: {
+                background: "#ff4f38",
+                color: "white",
+              },
+
+            },
+          }}
+        />
+    </AuthProvider>
   </React.StrictMode>,
 )
